@@ -21,6 +21,7 @@
     <script type="text/javascript" src="c_alv_obre_copia.js"></script>
     <script type="text/javascript" src="polanco.js"></script>
     <script type="text/javascript" src="c_bahia_sant_copia.js"></script>
+    <script type="text/javascript" src="alcaldias_copia.js"></script>
     
 
 
@@ -255,9 +256,44 @@
 
 
 
-        //////
-       
+        ////// fin de segunda capa
 
+        
+
+        ////TErcera capa categorizada
+        function getColor3(CVE_MUN) {
+            switch (CVE_MUN) {
+                case 'Menor a 25 min': return '#76e40e';
+                case '> 25 min and < 45 min': return '#eaf411';
+                case 'Mayor a 45 min': return '#de2e07';
+                default: return '#07bfc8';
+            }
+        }
+
+        function style3(feature) {
+            return {
+                fillColor: getColor3(feature.properties.alcal),
+                weight: 1,
+                opacity: 1,
+                color: 'black',
+                dashArray: '2',
+                fillOpacity: 0.5
+            };
+        }
+
+        function onEachFeature3(feature, layer) {
+            if (feature.properties) {
+                layer.bindPopup('<p> Alcaldía: ' + feature.properties.NOMGEO + '</p><p>Entidad: ' + feature.properties.NOM_ENT + '</p><p>Clave entidad: ' + feature.properties.CVE_ENT  + '</p><p>Clave municipio: ' + feature.properties.CVE_MUN + '</p>');
+            }
+        }
+
+        var layerGroup3 = L.geoJSON(alcal, {
+            style: style3,
+            onEachFeature: onEachFeature3
+        });
+        ///////
+       
+        
 
         
 
@@ -271,7 +307,8 @@
             "Polanco": polancoLayer,
             "Calle Bahía de todos los santos 146": tultiLayer,
             "Cobertura Same day": layerGroup,
-            "Tiempos de traslado": layerGroup2
+            "Tiempos de traslado": layerGroup2,
+            "Alcaldías": layerGroup3
             
 
            
